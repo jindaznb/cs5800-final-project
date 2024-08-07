@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+import os
 
 
 # Create a class for the nodes in the tree
@@ -98,7 +99,16 @@ def plot_knn(points, target, neighbors):
 
 # Main function to execute the KD-Tree creation, KNN search, and plotting
 def main():
-    df = pd.read_csv('data.csv')  # Read data from CSV file
+    script_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
+    parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))  # Get the parent directory
+    data_path = os.path.join(parent_dir, 'data', 'data.csv')  # Construct the path to the CSV file
+
+    try:
+        df = pd.read_csv(data_path)
+        print("File read successfully.")
+    except FileNotFoundError:
+        print("File not found. Please check the path.")
+
     points = df.values.tolist()  # Convert data to list of points
     kd_tree = build_kd_tree(points)  # Build KD-Tree from points
 
